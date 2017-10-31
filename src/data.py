@@ -41,8 +41,6 @@ PARSED_PICKLE_PATH = os.path.join(DEFAULT_DATA_LOCATION, 'parsed_data.pkl')
 PROCESSED_PICKLE_PATH = os.path.join(DEFAULT_DATA_LOCATION, 'processed_data.pkl')
 
 
-
-
 ## Classes to store the parsed data in. ##
 # ====================================== #
 

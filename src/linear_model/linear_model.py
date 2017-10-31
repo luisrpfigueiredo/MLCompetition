@@ -105,7 +105,7 @@ def build_sets(training_data):
 
 
 def main():
-    dataset = data.load_pickled_data(data.PARSED_PICKLE_PATH)
+    dataset = data.load_pickled_data(data.PROCESSED_PICKLE_PATH)
     train_data = dataset['train']
     test_data = dataset['test']
 

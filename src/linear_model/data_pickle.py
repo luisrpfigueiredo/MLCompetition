@@ -7,7 +7,7 @@ def main():
     data.create_pickled_data(overwrite_old=False)
 
     print "Loading teacher's data"
-    data_set = data.load_pickled_data()
+    data_set = data.load_pickled_data(pickled_data_file_path=data.DEFAULT_PICKLE_PATH)
     train_set = data_set['train']
     test_set = data_set['test']
 
