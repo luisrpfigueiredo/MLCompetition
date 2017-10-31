@@ -1,6 +1,7 @@
 from individual.src import utils, data
 import data_parser as parser
 
+
 def main():
     print "Creating teacher's data if didn't exist"
     data.create_pickled_data(overwrite_old=False)
@@ -10,10 +11,12 @@ def main():
     train_set = data_set['train']
     test_set = data_set['test']
 
-    print "Parsing data..."
     train_data, test_data = parser.parse_data(train_set, test_set)
 
-    print "Saving final version of pickled data"
+    print len(train_data)
+    print len(test_data)
+
+    print "Saving cleaned, parsed version of pickled data"
     utils.dump_pickle(
         dict(train=train_data, test=test_data), data.PARSED_PICKLE_PATH)
 

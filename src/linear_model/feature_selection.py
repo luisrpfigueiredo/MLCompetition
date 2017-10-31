@@ -1,13 +1,17 @@
 from sklearn import decomposition
 
 
-def select_features(extracted_train_data):
+def select_features(train_data, test_data):
+
+    selected_train_features = train_data
+    selected_test_features = test_data
+
+    all_samples = []
+    for session in train_data:
+        all_samples.extend(session.samples)
 
     decomposer = decomposition.TruncatedSVD(n_components=10)
-    decomposer.fit(extracted_train_data)
+    decomposer.fit(train_data)
 
-    print decomposer.explained_variance_
-    print decomposer.explained_variance_ratio_
-    print decomposer.singular_values_
+    return selected_train_features, selected_test_features
 
-    return decomposer

@@ -1,11 +1,15 @@
 import numpy as np
+import individual.src.data as data
+import individual.src.utils as utils
+import feature_selection
 
 
-def generate_sample(raw_sample):
-    """Generates a sample with a series of features
-    extracted from the raw, original sample
-    ::param raw_sample - the raw, original sample"""
+def feature_extraction(train_data, test_data):
+    """ Extracts new features out of existing features using ICA """
 
+    extracted_train_data = train_data
+    extracted_test_data = test_data
+    """ 
     x_hand_accel = raw_sample[0]
     y_hand_accel= raw_sample[1]
     z_hand_accel = raw_sample[2]
@@ -55,5 +59,27 @@ def generate_sample(raw_sample):
         hand_energy,
         chest_energy
     ]
+    """
 
-    return new_sample
+    return extracted_train_data, extracted_test_data
+
+
+def main():
+    print "Loading parsed data"
+    data_set = data.load_pickled_data(pickled_data_file_path=data.PARSED_PICKLE_PATH)
+    train_set = data_set['train']
+    test_set = data_set['test']
+
+    train_data, test_data = feature_extraction(train_set, test_set)
+
+    train_data, test_data = feature_selection.select_features(train_set, test_set)
+
+    print "Saving cleaned, parsed version of pickled data"
+    utils.dump_pickle(
+        dict(train=train_data, test=test_data), data.PROCESSED_PICKLE_PATH)
+
+    print "Saved to %s" % data.PROCESSED_PICKLE_PATH
+
+
+if __name__ == '__main__':
+    main()

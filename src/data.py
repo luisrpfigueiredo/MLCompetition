@@ -38,6 +38,7 @@ ACTIVITIES_FILE_NAME = 'activities.csv'
 # Data pickle file location
 DEFAULT_PICKLE_PATH = os.path.join(DEFAULT_DATA_LOCATION, 'data.pkl')
 PARSED_PICKLE_PATH = os.path.join(DEFAULT_DATA_LOCATION, 'parsed_data.pkl')
+PROCESSED_PICKLE_PATH = os.path.join(DEFAULT_DATA_LOCATION, 'processed_data.pkl')
 
 
 
