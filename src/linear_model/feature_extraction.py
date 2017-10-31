@@ -21,7 +21,7 @@ def extract_features(train_data, test_data, number_components=5):
     print "Decomposing train data"
     decomposer.fit(all_samples)
 
-    train_data = [session._replace(samples=decomposer.transform(session.samples)) for session in train_data]
+    train_data = [interval._replace(samples=decomposer.transform(interval.samples)) for interval in train_data]
 
     print "Decomposing test data"
     test_data = [decomposer.transform(interval) for interval in test_data]
@@ -40,7 +40,7 @@ def scale_features(train_data, test_data):
     scaler.fit(all_samples)
 
     print "Scaling train data"
-    train_data = [session._replace(samples=scaler.transform(session.samples)) for session in train_data]
+    train_data = [interval._replace(samples=scaler.transform(interval.samples)) for interval in train_data]
 
     print "Scaling test data"
     test_data = [scaler.transform(interval) for interval in test_data]

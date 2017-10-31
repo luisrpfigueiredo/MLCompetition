@@ -2,12 +2,12 @@ import numpy as np
 import collections
 
 from data_preprocessing import pre_process_data
-Session = collections.namedtuple(
-    'Session',
+Interval = collections.namedtuple(
+    'Interval',
     [
         'subject',  # The id of the subject
-        'activity',  # The id of the subject
-        'samples',  # All the samples
+        'activity',  # The id of the activity
+        'samples',  # All the interval samples
     ])
 
 
@@ -40,42 +40,33 @@ def parse_train_data(raw_data, remove_overlap=True):
    :param raw_data: data to be parsed
    :param remove_overlap: true if should remove overlap
 
-   :return: array with Session Objects
+   :return: array with parsed intervals
    """
 
     print "Parsing train data"
-    nr_sessions = len(raw_data)
-    parsed_sessions_data = [0] * nr_sessions
+    if remove_overlap:
+        parsed_intervals = [
+            Interval(session.subject, int(session.activity), np.array(parse_interval_data(interval.data[len(interval.data) / 2:])))
+            for session in raw_data
+            for interval in session.intervals]
+    else:
+        parsed_intervals = [
+            Interval(session.subject, int(session.activity), np.array(parse_test_data(interval.data)))
+            for session in raw_data
+            for interval in session.intervals]
 
-    for session_index, session in enumerate(raw_data):
-        flattened_intervals = []
-
-        for interval_index, interval in enumerate(session.intervals):
-            # Remove Overlap
-            interval_data = interval.data
-            if remove_overlap and not interval_index == 0:
-                interval_data = interval.data[len(interval.data) / 2:]
-
-            flattened_intervals.extend(parse_interval_data(interval_data))
-
-        parsed_sessions_data[session_index] = \
-            Session(session.subject, int(session.activity), np.array(flattened_intervals))
-
-    return parsed_sessions_data
+    return parsed_intervals
 
 
 def parse_test_data(raw_data):
     """
    Parse a raw test data set.
    :param raw_data: data to be parsed
-   :return: array with test sets
+   :return: array with parsed intervals
    """
 
     print "Parsing test data"
-    parsed_data = [0] * len(raw_data)
-    for idx, interval in enumerate(raw_data):
-        parsed_data[idx] = parse_interval_data(interval.data)
-
+    parsed_data = [parse_interval_data(interval.data) for interval in raw_data]
     return parsed_data
 
 
